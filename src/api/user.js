@@ -1,17 +1,15 @@
-import axios from "axios";
+
+import axios from "./axios";
 
 export async function Login(username, password) {
   try {
-    const resp = await axios.post('https://mallapi.duyiedu.com/passport/login', {
+    const resp = await axios.post('/passport/login', {
       email: username,
       password
     });
-    if (resp.status === 200) {
-      if (resp.data.data) {
-        localStorage.setItem('user', JSON.stringify(resp.data.data))
-      }
-      return resp.data.data;
-    }
+    console.log(resp);
+    localStorage.setItem('user', JSON.stringify(resp))
+    return resp;
   } catch (error) {
     console.log(error);
   }

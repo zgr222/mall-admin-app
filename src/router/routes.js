@@ -1,24 +1,36 @@
 
-import Login from '../views/Login.vue'
-import Home from '../views/Home.vue'
-
 export default [
-  { name: 'home', path: '/', component: Home, },
-  { name: 'login', path: '/login', component: Login },
-
+  {
+    name: 'Home',
+    path: '/',
+    meta: {
+      title: '首页',
+      hidden: false,
+      icon: 'icon-home'
+    },
+    redirect: { name: 'Index' },
+    component: () => import('../views/layout/Home.vue'),
+    children: [{
+      name: 'Index',
+      path: 'index',
+      meta: {
+        title: '统计',
+        hidden: false,
+        icon: 'icon-tongji'
+      },
+      component: () => import('../views/pages/Index.vue'),
+    }]
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    meta: {
+      title: '登录',
+      hidden: true,
+    },
+    component: () => import('../views/layout/Login.vue')
+  },
 ]
 
 
-// {
-//   path: '/',
-//   name: 'home',
-//   component: HomeView
-// },
-// {
-//   path: '/about',
-//   name: 'about',
-//   // route level code-splitting
-//   // this generates a separate chunk (about.[hash].js) for this route
-//   // which is lazy-loaded when the route is visited.
-//   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-// }
+

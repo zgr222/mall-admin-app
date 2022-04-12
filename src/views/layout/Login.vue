@@ -9,7 +9,7 @@
       <a-form-item
         label="Username"
         name="username"
-        :rules="[{ required: true, message: 'Please input your username!' }]"
+        :rules="[{ required: true, message: 'Please input your email!' }]"
       >
         <a-input v-model:value="user.username">
           <template #prefix>
@@ -91,13 +91,12 @@ export default {
         username: user.username,
         password: user.password,
       });
-
       if (!result) {
         alert("账号或密码错误");
         user.username = "";
         user.password = "";
       } else {
-        router.push("/");
+        router.push("/index");
       }
     };
     return {
