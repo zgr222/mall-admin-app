@@ -11,8 +11,14 @@
       </a-button>
       <div class="breadcrumb">
         <a-breadcrumb>
-          <a-breadcrumb-item>首页</a-breadcrumb-item>
-          <a-breadcrumb-item><a href="">统计</a></a-breadcrumb-item>
+          <a-breadcrumb-item>{{
+            curRoute[0] ? curRoute[0].meta.title : ""
+          }}</a-breadcrumb-item>
+          <a-breadcrumb-item>
+            <router-link :to="{ name: curRoute[1].meta.name }">
+              {{ curRoute[1] ? curRoute[1].meta.title : "" }}
+            </router-link>
+          </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
       <ul class="user-info">
@@ -33,7 +39,7 @@ import {
   MenuUnfoldOutlined,
   DownOutlined,
 } from "@ant-design/icons-vue";
-import { computed } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -54,10 +60,19 @@ export default {
       store.dispatch("userLogin/loginOut");
       router.push("/login");
     };
+
+    const curRoute = ref(router.currentRoute.value.matched);
+    watch(
+      () => router.currentRoute.value,
+      () => {
+        curRoute.value = router.currentRoute.value?.matched;
+      }
+    );
     return {
       toggleCollapsed,
       username,
       handleLoginOut,
+      curRoute,
     };
   },
 };

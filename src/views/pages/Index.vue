@@ -1,3 +1,13 @@
 <template>
-  <h1>统计页面</h1>
+  <Card />
+  <Charts />
 </template>
+
+<script>
+import Card from "@/components/Card.vue";
+import Charts from "@/components/Charts.vue";
+export default {
+  components: { Card, Charts },
+  setup() {},
+};
+</script>

@@ -27,14 +27,6 @@
           </a-menu-item>
         </a-sub-menu>
       </template>
-      <!-- <a-sub-menu key="sub2">
-        <template #icon>
-          <AppstoreOutlined />
-        </template>
-        <template #title>Navigation Two</template>
-        <a-menu-item key="9">Option 9</a-menu-item>
-        <a-menu-item key="10">Option 10</a-menu-item>
-      </a-sub-menu> -->
     </a-menu>
   </div>
 </template>
