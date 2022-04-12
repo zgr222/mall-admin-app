@@ -20,11 +20,13 @@ router.beforeEach((to, from, next) => {
       if (!isAddRoutes) {
         const menuRoutes = getMenuRoutes(user.role);
         store.dispatch('setAsyncMenuRoutes', routes.concat(menuRoutes)).then(() => {
-          // router.addRoute(menuRoutes);
           menuRoutes.forEach((it) => {
             router.addRoute(it);
           })
-          // console.log(router.getRoutes());
+          if (to.matched.length === 0) {
+            router.push(to.path);
+          }
+          // console.log(to.matched, to.path);
           next();
         });
         isAddRoutes = true;

@@ -9,7 +9,7 @@ const asyncRouterMap = [
       hidden: false,
       icon: 'icon-shangpin'
     },
-    // redirect: { name: 'productList' },
+    redirect: { name: 'ProductList' },
     component: () => import('../views/layout/Home.vue'),
     children: [
       {
