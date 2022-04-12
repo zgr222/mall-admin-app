@@ -85,6 +85,7 @@ export default {
   //   height: 100%;
   // }
 }
+
 .icon {
   width: 1em;
   height: 1em;
