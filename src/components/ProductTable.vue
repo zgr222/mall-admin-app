@@ -3,8 +3,8 @@
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'operation'">
         <div>
-          <a-button>编辑</a-button>
-          <a-button>删除</a-button>
+          <a-button @click="handleEdit(record)">编辑</a-button>
+          <a-button @click="handleDelete(record)">删除</a-button>
         </div>
       </template>
       <template v-if="column.dataIndex === 'tags'">
@@ -43,11 +43,13 @@ const columns = [
     title: "预售价格",
     dataIndex: "price",
     key: "price",
+    width: 100,
   },
   {
     title: "折扣价格",
     dataIndex: "price_off",
     key: "price_off",
+    width: 100,
   },
   {
     title: "标签",
@@ -71,15 +73,27 @@ const columns = [
     title: "操作",
     dataIndex: "operation",
     key: "operation",
+    width: 170,
   },
 ];
 
 import { ref } from "vue";
 export default {
   props: ["tableData"],
-  setup() {
+  setup(props, ctx) {
+    const handleEdit = (record) => {
+      ctx.emit("edit", record);
+      // console.log(record);
+    };
+    const handleDelete = (record) => {
+      ctx.emit("delete", record);
+      // console.log(record);
+    };
+
     return {
       columns,
+      handleEdit,
+      handleDelete,
     };
   },
 };

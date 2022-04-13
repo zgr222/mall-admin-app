@@ -17,14 +17,17 @@
             <IconFont :type="route.meta.icon" class="icon" />
           </template>
           <template #title>{{ route.meta.title }}</template>
-          <a-menu-item v-for="child in route.children" :key="child.name">
-            <template #icon>
-              <IconFont :type="child.meta.icon" class="icon" />
-            </template>
-            <router-link :to="{ name: child.name }">{{
-              child.meta.title
-            }}</router-link>
-          </a-menu-item>
+
+          <template v-for="child in route.children">
+            <a-menu-item v-if="!child.meta.hidden" :key="child.name">
+              <template #icon>
+                <IconFont :type="child.meta.icon" class="icon" />
+              </template>
+              <router-link :to="{ name: child.name }">{{
+                child.meta.title
+              }}</router-link>
+            </a-menu-item>
+          </template>
         </a-sub-menu>
       </template>
     </a-menu>
@@ -33,7 +36,7 @@
 
 <script>
 import { createFromIconfontCN } from "@ant-design/icons-vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_3320887_rr4icpi9hro.js",
@@ -42,15 +45,20 @@ const IconFont = createFromIconfontCN({
 export default {
   components: { IconFont },
   props: ["state"],
-  // created() {
-  //   console.log(this.$router);
-  // },
   setup() {
     const router = useRouter();
     const openKeys = ref([router.currentRoute.value.matched[0].name]);
-    const selectedKeys = ref([
-      router.currentRoute.value.matched[1]?.name ?? "",
-    ]);
+    let selectedKeys = ref([router.currentRoute.value.matched[1]?.name ?? ""]);
+    watch(
+      () => router.currentRoute.value,
+      () => {
+        let routeVal = router.currentRoute.value?.matched[1]?.name;
+        console.log(routeVal);
+        routeVal === "ProductEdit" && (routeVal = "ProductAdd");
+        selectedKeys.value.splice(0, 1, routeVal);
+      }
+    );
+
     return {
       openKeys,
       selectedKeys,

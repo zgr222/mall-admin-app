@@ -23,6 +23,16 @@ const asyncRouterMap = [
         component: () => import('../views/pages/ProductList.vue')
       },
       {
+        name: 'ProductEdit',
+        path: 'edit/:id',
+        meta: {
+          title: '编辑商品',
+          hidden: true,
+          icon: 'icon-tianjiashangpin'
+        },
+        component: () => import('../views/pages/ProductAdd.vue')
+      },
+      {
         name: 'ProductAdd',
         path: 'add',
         meta: {
@@ -51,11 +61,13 @@ const roleToRoute = {
   coustomer: [
     { name: 'Product' },
     { name: 'ProductList' },
+    { name: 'ProductEdit' },
     { name: 'ProductAdd' },
   ],
   admin: [
     { name: 'Product' },
     { name: 'ProductList' },
+    { name: 'ProductEdit' },
     { name: 'ProductAdd' },
     { name: 'Category' },
   ]

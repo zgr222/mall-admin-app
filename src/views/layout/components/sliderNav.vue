@@ -26,7 +26,7 @@
           欢迎您，{{ username }}
           <down-outlined />
         </li>
-        <li @click="handleLoginOut">退出</li>
+        <li class="loginOut" @click="handleLoginOut">退出</li>
       </ul>
     </div>
     <router-view></router-view>
@@ -99,21 +99,22 @@ export default {
       float: right;
       text-align: center;
       cursor: pointer;
-      li:not(:first-child) {
-        display: none;
-
-        &:hover {
-          background-color: #eee;
-          color: #999;
-          font-weight: 700;
-        }
-      }
       li {
         padding: 0 20px;
       }
+      li.loginOut {
+        display: none;
+      }
       &:hover {
-        li {
+        li.loginOut {
+          position: absolute;
+          z-index: 999;
           display: block;
+          width: 133px;
+          background-color: #eee;
+          &:hover {
+            color: red;
+          }
         }
       }
     }
