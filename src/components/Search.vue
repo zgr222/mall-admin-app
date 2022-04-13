@@ -16,7 +16,7 @@
           allowClear
         >
           <a-select-option
-            v-for="item in categoryList"
+            v-for="item in searchData"
             :key="item.id"
             :value="item.id"
           >
@@ -26,36 +26,38 @@
       </a-form-item>
       <a-form-item>
         <a-button type="primary" html-type="submit"> 搜索 </a-button>
+        <a-button type="primary" style="margin-left: 10px" @click="handleBack">
+          返回
+        </a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 <script>
 import { ref, reactive } from "vue";
-import { getCategory } from "../api/category";
+
 export default {
+  props: ["searchData"],
   setup(props, ctx) {
     const searchForm = reactive({
       keyWords: "",
       category: "",
     });
 
-    const categoryList = ref([]);
-
-    getCategory().then((res) => {
-      categoryList.value.push(...res.data);
-    });
-
     const handleSubmit = () => {
-      console.log(searchForm.keyWords, searchForm.category);
-      // const res = await getCategory(searchForm);
-      // ctx.emit("submit", searchForm);
+      ctx.emit("submit", searchForm);
+    };
+
+    const handleBack = () => {
+      searchForm.keyWords = "";
+      searchForm.category = "";
+      ctx.emit("back");
     };
 
     return {
       searchForm,
       handleSubmit,
-      categoryList,
+      handleBack,
     };
   },
 };
