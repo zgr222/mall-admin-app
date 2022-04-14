@@ -2,6 +2,12 @@ import routes from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
 import getMenuRoutes from './filterRoleRouter'
 import store from '../store'
+import NProgress from "nprogress";
+import 'nprogress/nprogress.css';
+NProgress.configure({
+  trickleSpeed: 10,
+  showSpinner: false
+})
 
 const router = createRouter({
   history: createWebHistory(),
@@ -10,11 +16,14 @@ const router = createRouter({
 
 let isAddRoutes = false;
 router.beforeEach((to, from, next) => {
+  NProgress.start();
   if (to.path === '/login') {
+    NProgress.done();
     return next()
   } else {
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user) {
+      NProgress.done();
       return next('/login');
     } else {
       if (!isAddRoutes) {
@@ -31,30 +40,10 @@ router.beforeEach((to, from, next) => {
         });
         isAddRoutes = true;
       }
+      NProgress.done();
       return next();
     }
   }
 })
-// router.beforeEach((to, from, next) => {
-//   if (to.path !== '/login') {
-//     const user = JSON.parse(localStorage.getItem('user'))
-//     if (user) {
-//       console.log(user);
-//       if (!isAddRoutes) {
-//         const menuRoutes = getMenuRoutes(user.role);
-//         store.dispatch('setAsyncMenuRoutes', routes.concat(menuRoutes)).then(() => {
-//           menuRoutes.forEach((it) => {
-//             router.addRoute(it);
-//           })
-//           next();
-//         });
-//         isAddRoutes = true;
-//       }
-//       return next();
-//     }
-//     return next('/login');
-//   }
-//   return next();
-// });
 
 export default router

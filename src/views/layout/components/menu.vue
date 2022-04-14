@@ -53,7 +53,6 @@ export default {
       () => router.currentRoute.value,
       () => {
         let routeVal = router.currentRoute.value?.matched[1]?.name;
-        console.log(routeVal);
         routeVal === "ProductEdit" && (routeVal = "ProductAdd");
         selectedKeys.value.splice(0, 1, routeVal);
       }

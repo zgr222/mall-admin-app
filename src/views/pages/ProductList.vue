@@ -16,6 +16,7 @@
       :tableData="productsData"
       @edit="handleEdit"
       @delete="handleDelete"
+      @pageChange="handlePageChange"
     />
   </div>
 </template>
@@ -23,7 +24,7 @@
 <script>
 import Search from "@/components/Search.vue";
 import ProductTable from "@/components/ProductTable.vue";
-import { ref, createVNode } from "vue";
+import { ref, createVNode, reactive } from "vue";
 import * as productApi from "@/api/product";
 import { getCategory } from "@/api/category";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
@@ -34,12 +35,23 @@ export default {
   components: { Search, ProductTable },
   setup() {
     const router = useRouter();
+    let pageData = {
+      page: 1,
+      size: 10,
+    };
 
     //获取下拉框的类目选择
     let categoryList = ref([]);
     getCategory().then((res) => {
       categoryList.value = res.data;
     });
+
+    const handlePageChange = (val) => {
+      pageData = {
+        ...val,
+      };
+      console.log("搜索后", val);
+    };
 
     // 获取商品列表数据
     let productsData = ref([]);
@@ -57,10 +69,10 @@ export default {
 
     // 根据搜索重新获取数据
     let searchParams = {};
+    let prePage = {};
     const handleSearchSubmit = (searchForm) => {
+      prePage = { ...pageData };
       searchParams = {
-        // page: 1,
-        // size: 10,
         searchWord: searchForm.keyWords,
         category: searchForm.category,
       };
@@ -69,7 +81,7 @@ export default {
 
     // 搜索后返回
     const handleBack = () => {
-      initProducts();
+      initProducts(prePage);
     };
 
     // 编辑商品
@@ -80,20 +92,25 @@ export default {
 
     // 删除商品
     const handleDelete = (product) => {
-      console.log("...", product.id);
+      console.log("...", product);
       Modal.confirm({
         title: "是否确认删除该商品?",
         icon: createVNode(ExclamationCircleOutlined),
+        okText: "确定",
         content: `${product.title}`,
         onOk() {
           productApi
             .deleteProduct(product.id)
             .then((res) => {
-              message.success("删除成功！", [1.5]);
-              initProducts();
+              message.success("删除成功！", 1.5, () => {
+                initProducts({
+                  ...pageData,
+                  ...searchParams,
+                });
+              });
             })
             .catch((err) => {
-              message.error(`删除失败！${err}`, [1.5]);
+              message.error(`删除失败！${err}`, 1.5);
             });
         },
         onCancel() {
@@ -109,6 +126,7 @@ export default {
       handleBack,
       handleEdit,
       handleDelete,
+      handlePageChange,
     };
   },
 };

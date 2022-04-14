@@ -1,5 +1,10 @@
 <template>
-  <a-table :columns="columns" :data-source="tableData">
+  <a-table
+    :columns="columns"
+    :data-source="tableData"
+    @change="handleChange"
+    :loading="tableData.length === 0"
+  >
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'operation'">
         <div>
@@ -77,7 +82,6 @@ const columns = [
   },
 ];
 
-import { ref } from "vue";
 export default {
   props: ["tableData"],
   setup(props, ctx) {
@@ -90,10 +94,18 @@ export default {
       // console.log(record);
     };
 
+    const handleChange = (val) => {
+      ctx.emit("pageChange", {
+        page: val.current,
+        pageSize: val.pageSize,
+      });
+    };
+
     return {
       columns,
       handleEdit,
       handleDelete,
+      handleChange,
     };
   },
 };
