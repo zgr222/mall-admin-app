@@ -17,7 +17,7 @@ const router = createRouter({
 let isAddRoutes = false;
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path === '/register') {
     NProgress.done();
     return next()
   } else {

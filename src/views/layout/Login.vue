@@ -29,13 +29,6 @@
         </a-input-password>
       </a-form-item>
 
-      <!-- <div class="login-form-wrap">
-        <a-form-item name="remember" no-style>
-          <a-checkbox v-model:checked="user.remember">Remember me</a-checkbox>
-        </a-form-item>
-        <a class="login-form-forgot" href="">Forgot password</a>
-      </div> -->
-
       <a-form-item>
         <a-button
           :disabled="loading"
@@ -48,9 +41,7 @@
       </a-form-item>
       <div class="register-forgot-item">
         <div>
-          <a href="https://mallapi.duyiedu.com/login/#/register" target="_blank"
-            >注册</a
-          >
+          <router-link :to="{ name: 'Register' }">注册</router-link>
           |
           <a href="https://mallapi.duyiedu.com/login/#/login" target="_blank"
             >忘记密码</a
@@ -110,7 +101,7 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  background-color: aliceblue;
+  background-color: rgb(204, 226, 161);
   width: 100vw;
   height: 100vh;
   display: flex;

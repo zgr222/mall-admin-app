@@ -30,6 +30,15 @@ export default [
     },
     component: () => import('../views/layout/Login.vue')
   },
+  {
+    name: 'Register',
+    path: '/register',
+    meta: {
+      title: '注册',
+      hidden: true,
+    },
+    component: () => import('../views/layout/Register.vue')
+  },
 ]
 
 

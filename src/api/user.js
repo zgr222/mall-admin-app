@@ -27,3 +27,14 @@ export function whoAmI() {
   }
   return null;
 }
+
+export function register(formData) {
+  return axios.post("/passport/logon", {
+    ...formData
+  })
+}
+
+// 获取验证码
+export function getCode(email) {
+  return axios.post('/passport/getCode', email);
+}
