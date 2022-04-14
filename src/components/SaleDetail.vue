@@ -23,7 +23,7 @@
       <a-input v-model:value="detailForm.unit" />
     </a-form-item>
     <a-form-item label="上架状态" name="status" style="text-align: start">
-      <a-checkbox v-model:checked="detailForm.status">是否上架</a-checkbox>
+      <a-checkbox v-model:checked="isUp">是否上架</a-checkbox>
     </a-form-item>
     <a-form-item label="商品相册" name="images" style="text-align: start">
       <a-upload
@@ -81,6 +81,12 @@ export default {
       required: "${label}不能为空！",
     };
     const formRef = ref();
+    const isUp = ref(true);
+    if (props.detailForm.status === 1) {
+      isUp.value = true;
+    } else if (props.detailForm.status === 0) {
+      isUp.value = false;
+    }
 
     const prev = () => {
       ctx.emit("prev");
@@ -155,6 +161,7 @@ export default {
       handlePreview,
       handleCancel,
       handleChange,
+      isUp,
     };
   },
 };

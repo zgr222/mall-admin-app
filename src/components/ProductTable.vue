@@ -3,7 +3,7 @@
     :columns="columns"
     :data-source="tableData"
     @change="handleChange"
-    :loading="tableData.length === 0"
+    :loading="loading"
   >
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'operation'">
@@ -83,7 +83,7 @@ const columns = [
 ];
 
 export default {
-  props: ["tableData"],
+  props: ["tableData", "loading"],
   setup(props, ctx) {
     const handleEdit = (record) => {
       ctx.emit("edit", record);

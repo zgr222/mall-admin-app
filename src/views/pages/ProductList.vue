@@ -14,6 +14,7 @@
     <!-- 表格 -->
     <ProductTable
       :tableData="productsData"
+      :loading="loading"
       @edit="handleEdit"
       @delete="handleDelete"
       @pageChange="handlePageChange"
@@ -24,7 +25,7 @@
 <script>
 import Search from "@/components/Search.vue";
 import ProductTable from "@/components/ProductTable.vue";
-import { ref, createVNode, reactive } from "vue";
+import { ref, createVNode } from "vue";
 import * as productApi from "@/api/product";
 import { getCategory } from "@/api/category";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
@@ -50,12 +51,13 @@ export default {
       pageData = {
         ...val,
       };
-      console.log("搜索后", val);
     };
 
     // 获取商品列表数据
     let productsData = ref([]);
+    let loading = ref(null);
     const initProducts = (params) => {
+      loading.value = true;
       productApi.getProducts(params).then((res) => {
         productsData.value = res.data.map((it) => {
           return {
@@ -63,6 +65,7 @@ export default {
             categoryName: categoryList.value[it.category - 1]?.name,
           };
         });
+        loading.value = false;
       });
     };
     initProducts();
@@ -81,12 +84,11 @@ export default {
 
     // 搜索后返回
     const handleBack = () => {
-      initProducts(prePage);
+      initProducts();
     };
 
     // 编辑商品
     const handleEdit = (product) => {
-      console.log(product);
       router.push({ name: "ProductEdit", params: { id: product.id } });
     };
 
@@ -127,6 +129,7 @@ export default {
       handleEdit,
       handleDelete,
       handlePageChange,
+      loading,
     };
   },
 };

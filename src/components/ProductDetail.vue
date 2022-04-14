@@ -36,10 +36,9 @@
       :wrapper-col="{ offset: 7, span: 8 }"
     >
       <a-select
-        v-model="detailForm.c_item"
         placeholder="请选择子类目"
         style="margin-top: 10px"
-        v-model:value="detailForm.c_items"
+        v-model:value="detailForm.c_item"
       >
         <a-select-option v-for="c in categoryItems" :key="c" :value="c">
           <template v-if="categoryItems.length > 0">{{ c }}</template>
