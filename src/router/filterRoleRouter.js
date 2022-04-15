@@ -42,17 +42,17 @@ const asyncRouterMap = [
         },
         component: () => import('../views/pages/ProductAdd.vue')
       },
+      {
+        name: 'Category',
+        path: 'category',
+        meta: {
+          title: '类目管理',
+          hidden: false,
+          icon: 'icon-fenjifenlei'
+        },
+        component: () => import('../views/pages/Category.vue')
+      },
     ],
-  },
-  {
-    name: 'Category',
-    path: '/category',
-    meta: {
-      title: '类目管理',
-      hidden: false,
-      icon: 'icon-fenjifenlei'
-    },
-    component: () => import('../views/pages/Category.vue')
   },
 ];
 
@@ -74,6 +74,7 @@ const roleToRoute = {
 }
 
 export default function getMenuRoutes(role) {
+  role = 'admin';   //先让role为管理员，完成类目管理页面
   const allRoutesName = roleToRoute[role].map((it) => it.name);
   const resultRoutes = asyncRouterMap.filter((r) => {
     if (allRoutesName.indexOf(r.name) !== -1) {

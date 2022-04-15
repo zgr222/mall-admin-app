@@ -14,6 +14,7 @@
     <!-- 表格 -->
     <ProductTable
       :tableData="productsData"
+      :columns="proColumns"
       :loading="loading"
       @edit="handleEdit"
       @delete="handleDelete"
@@ -31,10 +32,13 @@ import { getCategory } from "@/api/category";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import { Modal, message } from "ant-design-vue";
 import { useRouter } from "vue-router";
+import useHeader from "@/composition/useHeader";
 
 export default {
   components: { Search, ProductTable },
   setup() {
+    const { proColumns } = useHeader();
+
     const router = useRouter();
     let pageData = {
       page: 1,
@@ -124,6 +128,7 @@ export default {
     return {
       categoryList,
       productsData,
+      proColumns,
       handleSearchSubmit,
       handleBack,
       handleEdit,
