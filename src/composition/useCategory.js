@@ -24,8 +24,10 @@ export default function useCategory() {
 
   //获取表格渲染数据
   const initCategory = () => {
+    loading.value = true;
     categoryApi.getCategory().then((res) => {
       categoryList.value = res.data;
+      loading.value = false;
     }).catch((err) => {
       message.error(`网络错误${err}`, 2)
     });
